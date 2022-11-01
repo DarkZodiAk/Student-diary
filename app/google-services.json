@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1020152291238",
+    "project_id": "diarystud",
+    "storage_bucket": "diarystud.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1020152291238:android:c0ab82be2b893e51f17967",
+        "android_client_info": {
+          "package_name": "com.android.studentdiary"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1020152291238-9vse6g5np84ib83c62e927q907ps1jri.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATZC9cfE2iLyt58l91cOTh5IazHaHYl0A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1020152291238-9vse6g5np84ib83c62e927q907ps1jri.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
