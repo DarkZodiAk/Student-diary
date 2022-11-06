@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "1020152291238-uebieaaqfnb1qri8kbr2ngnmdtlbt311.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.android.studentdiary",
+            "certificate_hash": "70887c0d58f00cd15f75524047d247c5499c1b37"
+          }
+        },
+        {
           "client_id": "1020152291238-9vse6g5np84ib83c62e927q907ps1jri.apps.googleusercontent.com",
           "client_type": 3
         }
