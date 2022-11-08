@@ -1,5 +1,6 @@
 package com.android.studentdiary
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,16 +13,17 @@ import com.google.firebase.ktx.Firebase
 class MainActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         auth = FirebaseAuth.getInstance()
 
-        val email = intent.getStringExtra("email")
-        val displayname = intent.getStringExtra("name")
+        val email = auth.currentUser?.email   //Эти три строки выведут вам почту и имя аккаунта
+        val displayName = auth.currentUser?.displayName
 
-        findViewById<TextView>(R.id.textView).text = email + "\n" + displayname
+        findViewById<TextView>(R.id.textView).text = displayName + "\n" + email
 
         findViewById<Button>(R.id.bSignOut).setOnClickListener{
             auth.signOut()
