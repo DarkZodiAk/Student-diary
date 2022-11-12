@@ -6,47 +6,34 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import androidx.databinding.DataBindingUtil
+import com.android.studentdiary.databinding.ActivityLauncherBinding
+import com.android.studentdiary.databinding.ActivityMainBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
+    lateinit var binding: ActivityMainBinding
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         auth = FirebaseAuth.getInstance()
 
         val email = auth.currentUser?.email   //Эти три строки выведут вам почту и имя аккаунта
         val displayName = auth.currentUser?.displayName
 
-        findViewById<TextView>(R.id.textView).text = displayName + "\n" + email
+        binding.textView.text = displayName + "\n" + email
 
-        findViewById<Button>(R.id.bSignOut).setOnClickListener{
+        binding.bSignOut.setOnClickListener {
             auth.signOut()
             startActivity(Intent(this, LauncherActivity::class.java))
         }
-
-
-
-
-
-        /*val db = Firebase.firestore
-        val user = hashMapOf(
-            "first" to "Ada",
-            "last" to "Lovelace",
-            "born" to 1815
-        )
-        db.collection("users").add(user)*/
-            /*.addOnSuccessListener { documentReference ->
-                Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
-            }
-            .addOnFailureListener { e ->
-                Log.w(TAG, "Error adding document", e)
-            }*/
     }
-}
 
+}
