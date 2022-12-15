@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/folder"
+        android:icon="@drawable/ic_folder"
+        android:title="Folder"
+        android:orderInCategory="1"
+        />
+    <item
+        android:id="@+id/settings"
+        android:icon="@drawable/ic_settings"
+        android:title="Settings"
+        android:orderInCategory="2"
+        />
+    <item
+        android:id="@+id/calendar"
+        android:icon="@drawable/ic_calendar"
+        android:title="Calendar"
+        android:orderInCategory="3"
+        />
+    <item
+        android:id="@+id/messages"
+        android:icon="@drawable/ic_messages"
+        android:title="Messages"
+        android:orderInCategory="4"
+        />
+
+</menu>
