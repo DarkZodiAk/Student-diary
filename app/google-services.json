@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "1020152291238",
+    "firebase_url": "https://diarystud-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "diarystud",
     "storage_bucket": "diarystud.appspot.com"
   },
@@ -19,6 +20,14 @@
           "android_info": {
             "package_name": "com.android.studentdiary",
             "certificate_hash": "70887c0d58f00cd15f75524047d247c5499c1b37"
+          }
+        },
+        {
+          "client_id": "1020152291238-vs60h0mbugj3d2bg061v8c3d6u0l3ra2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.android.studentdiary",
+            "certificate_hash": "57ffdcf8214ae5d83e12d2bfcd2b27b21ddf0f96"
           }
         },
         {

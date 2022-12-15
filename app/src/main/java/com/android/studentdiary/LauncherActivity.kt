@@ -1,31 +1,25 @@
 package com.android.studentdiary
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
 import com.android.studentdiary.databinding.ActivityLauncherBinding
+import com.android.studentdiary.models.Folder
+import com.android.studentdiary.models.User
 /*import com.google.android.ads.mediation-testsuite.activities.HomeActivity*/
-import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 class LauncherActivity : AppCompatActivity() {
@@ -50,9 +44,11 @@ class LauncherActivity : AppCompatActivity() {
                 Log.d("MyLog","Api exception")
             }
         }
+
         binding.bSignIn.setOnClickListener {
             signInGoogle()
         }
+
         checkAuthState()
     }
 
@@ -66,9 +62,34 @@ class LauncherActivity : AppCompatActivity() {
     }
 
 
+    private fun createFirstFolder(db: FirebaseFirestore, usrinf: FirebaseUser?): String {
+        val folder = Folder(usrinf?.uid, name = "Входящие")
+        val ref = db.collection("folders").document()
+        ref.set(folder)
+            .addOnSuccessListener { Log.d("Firestore_Log", "Id of added first folder: ${ref.id}") }
+            .addOnFailureListener { Log.d("Firestore_Log", "Couldn't add first folder") }
+        return ref.id
+    }
+
+    private fun createUser(db: FirebaseFirestore, usrinf: FirebaseUser?){
+        db.collection("users").document("${usrinf?.uid}").get()
+            .addOnSuccessListener {
+                if(!it.exists()){
+                    val firstRef = createFirstFolder(db, usrinf)
+                    val user = User(usrinf?.displayName!!, usrinf.email)
+                    user.folder_ids.add(firstRef)
+                    db.collection("users").document(usrinf.uid).set(user)
+
+                    Log.d("Firestore_Log","Created missing data")
+                }
+            }
+    }
+
+
     private fun signInGoogle(){
         val signInIntent = getClient()
         launcher.launch(signInIntent.signInIntent)
+
     }
 
 
@@ -77,9 +98,6 @@ class LauncherActivity : AppCompatActivity() {
         auth.signInWithCredential(credential).addOnCompleteListener {
             if (it.isSuccessful){
                 checkAuthState()
-                /*intent.putExtra("email",idToken)
-                intent.putExtra("name",idToken)*/
-
             } else{
                 Log.d("MyLog","Not successful")
             }
@@ -88,8 +106,19 @@ class LauncherActivity : AppCompatActivity() {
 
     private fun checkAuthState(){
         if(auth.currentUser!=null){
-            val intent = Intent(this, MainActivity::class.java)
+            val usrinf = auth.currentUser
+            val db = Firebase.firestore
+            createUser(db,usrinf)
+
+            val intent = Intent(this, MainActivity::class.java). apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+
             startActivity(intent)
         }
     }
 }
+
+
+
+/**/
